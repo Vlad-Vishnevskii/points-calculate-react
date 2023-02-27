@@ -1,0 +1,269 @@
+.container {
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.header {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header__wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.header__title {
+  margin: 0;
+  font-size: 24px;
+}
+
+.tournament {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tournament__title {
+  font-size: 20px;
+}
+
+.tournament-form__input {
+  width: 41px;
+  height: 33px;
+  padding: 5px;
+  background-color: #a5a09c;
+  border-color: #a5a09c;
+  font-weight: bold;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 5px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: relative;  
+  background-size: 22px;
+}
+
+.tournament-form__input:hover,
+.tournament-form__input:active,
+.tournament-form__input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.tournament__separator {
+  padding: 10px 0;
+  font-weight: bold;
+}
+
+.tournament__form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  max-width: 280px;
+}
+
+.tournament-form__team-name {
+  height: 33px;
+  background-color: #a5a09c;
+  border-color: #a5a09c;
+  font-weight: bold;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 5px;
+  margin-right: 15px;
+}
+
+.tournament-form__team-name:hover,
+.tournament-form__team-name:active,
+.tournament-form__team-name:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.button {
+  margin: 20px;
+  margin-bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: rgb(230, 59, 68);
+  border: 3px solid rgb(230, 59, 68);
+  box-shadow: 0 0 9px rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  font-weight: bold;
+  box-sizing: border-box;
+  text-transform: uppercase;
+  color: white;
+}
+
+.tournament-form__button-add-result:disabled {
+  opacity: 0.6;
+}
+
+.tournament-form__button-add-result:hover,
+.tournament-form__button-add-result:active,
+.tournament-form__button-add-result:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.tournament-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.tournament-wrapper__title {
+  font-size: 20px;
+}
+
+.tournament-table {
+  background-color: rgba(51, 153, 51, 0.5);
+  color: black;
+  margin-bottom: 30px;
+  border-collapse: collapse;
+  font-size: 20px;
+  width: 100%;
+}
+
+.tournament-table__string:nth-child(2n + 1) {
+  background-color: white;
+}
+
+.tournament-table__title-cell {
+  background-color: rgba(51, 153, 51, 1);
+  color: white;
+}
+
+.tournament-table__cell {
+  text-align: center;
+  padding: 5px;
+}
+
+.tournament-table__title-cell:first-child {
+  padding-left: 8px;
+}
+
+.tournament-table__cell_scored {
+  display: none;
+}
+
+.tournament-table__cell_conceded {
+  display: none;
+}
+
+.tournament-table__cell_difference {
+  display: none;
+}
+
+.games {
+  padding-bottom: 50px;
+}
+
+.game-result {
+  display: flex;
+  width: 100%;
+  font-size: 20px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.game-result__home {
+  width: 35%;
+  text-align: right;
+}
+
+.game-result__score {
+  width: 30%;
+  text-align: center;
+}
+
+.game-result__visitors {
+  width: 35%;
+  text-align: left;
+}
+
+@media (min-width: 450px) {
+  .header__wrapper {
+    max-width: 450px;
+    margin: 0 auto;
+  }
+
+  .tournament__form {
+    max-width: 400px;
+  }
+
+  .tournament-form__button-add-result {
+    width: 53%;
+  }
+}
+
+@media (min-width: 650px) {
+  .tournament {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tournament__form {
+    max-width: 600px;
+  }
+
+  .tournament-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .container {
+    width: 650px;
+    margin: 0 auto;
+  }
+
+  .tournament-table__cell_name {
+    text-align: left;
+  }
+
+  .tournament-table__cell_scored {
+    display: table-cell;
+  }
+
+  .tournament-table__cell_conceded {
+    display: table-cell;
+  }
+
+  .tournament-table__cell_difference {
+    display: table-cell;
+  }
+
+  .tournament-form__button-add-result {
+    width: 100%;
+  }
+
+  .game-result {
+    width: 50%;
+  }
+}
+
+@media (min-width: 900px) {
+  .game-result {
+    width: 35%;
+  }
+}
+
+.tournament-form__button-clear {
+  align-self: flex-end;
+  margin: 0;
+  margin-bottom: 30px;
+  padding: 0;
+  background: none;
+  border: none;
+}
