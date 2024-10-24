@@ -1,102 +1,8 @@
 import React, { useState } from 'react';
 import './App.scss';
-
-enum TypeTeam {
-  home = 'home',
-  visitor = 'visitor',
-}
-
-enum CreateTeamType {
-  default = 'default',
-  computed = 'computed',
-}
-
-interface TableItem {
-  id: number;
-  name: string;
-  points: number;
-  matches: number;
-  wins: number;
-  loss: number;
-  draws: number;
-  scored: number;
-  conceded: number;
-  difference: number;
-}
-
-type Table = TableItem[];
-
-class Team {
-  id: number;
-  name: string;
-  points: number;
-  matches: number;
-  wins: number;
-  loss: number;
-  draws: number;
-  scored: number;
-  conceded: number;
-  difference: number;
-
-  constructor(id: number, name: string) {
-    this.id = id;
-    this.name = name;
-    this.points = 0;
-    this.matches = 0;
-    this.wins = 0;
-    this.loss = 0;
-    this.draws = 0;
-    this.scored = 0;
-    this.conceded = 0;
-    this.difference = 0;
-  }
-}
-
-function getPoints(homeGoals: number, visitorGoals: number, type: TypeTeam) {
-  if (type === TypeTeam.home) {
-    if (homeGoals > visitorGoals) {
-      return 3;
-    } else if (homeGoals < visitorGoals) {
-      return 0;
-    } else {
-      return 1;
-    }
-  }
-
-  if (type === TypeTeam.visitor) {
-    if (homeGoals > visitorGoals) {
-      return 0;
-    } else if (homeGoals < visitorGoals) {
-      return 3;
-    } else {
-      return 1;
-    }
-  }
-
-  return 0;
-}
-
-const sortTable = (table: Table) => {
-  return table.sort((rowA: TableItem, rowB: TableItem) => {
-    let a = rowA.points;
-    let b = rowB.points;
-    if (a === b) {
-      a = rowA.difference;
-      b = rowB.difference;
-    }
-    if (a === b) {
-      a = rowA.wins;
-      b = rowB.wins;
-    }
-    if (a > b) {
-      return -1;
-    }
-    if (a < b) {
-      return 1;
-    }
-    return 0;
-  });
-};
+import { Team } from './entities';
+import { TypeTeam } from './types';
+import { sortTable } from './utils';
 
 const App: React.FC = () => {
   const [teamList, setTeamList] = useState([
@@ -122,34 +28,11 @@ const App: React.FC = () => {
       sortTable(
         teamList.map(team => {
           if (team.name === homeTeamNameValue) {
-            return {
-              id: team.id,
-              name: team.name,
-              points:
-                team.points + getPoints(homeTeamGoalsValue, visitorTeamGoalsValue, TypeTeam.home),
-              matches: team.matches + 1,
-              wins: homeTeamGoalsValue > visitorTeamGoalsValue ? team.wins + 1 : team.wins,
-              loss: homeTeamGoalsValue < visitorTeamGoalsValue ? team.loss + 1 : team.loss,
-              draws: homeTeamGoalsValue === visitorTeamGoalsValue ? team.draws + 1 : team.draws,
-              scored: team.scored + homeTeamGoalsValue,
-              conceded: team.conceded + visitorTeamGoalsValue,
-              difference: team.difference + (homeTeamGoalsValue - visitorTeamGoalsValue),
-            };
+            team.setResultHome(homeTeamGoalsValue, visitorTeamGoalsValue, TypeTeam.home);
+            return team;
           } else if (team.name === visitorTeamNameValue) {
-            return {
-              id: team.id,
-              name: team.name,
-              points:
-                team.points +
-                getPoints(homeTeamGoalsValue, visitorTeamGoalsValue, TypeTeam.visitor),
-              matches: team.matches + 1,
-              wins: homeTeamGoalsValue < visitorTeamGoalsValue ? team.wins + 1 : team.wins,
-              loss: homeTeamGoalsValue > visitorTeamGoalsValue ? team.loss + 1 : team.loss,
-              draws: homeTeamGoalsValue === visitorTeamGoalsValue ? team.draws + 1 : team.draws,
-              scored: team.scored + visitorTeamGoalsValue,
-              conceded: team.conceded + homeTeamGoalsValue,
-              difference: team.difference + (visitorTeamGoalsValue - homeTeamGoalsValue),
-            };
+            team.setResultVisitor(homeTeamGoalsValue, visitorTeamGoalsValue, TypeTeam.visitor);
+            return team;
           } else {
             return team;
           }
@@ -157,8 +40,6 @@ const App: React.FC = () => {
       ),
     );
   };
-
-  console.log(teamList);
 
   return (
     <div className="App">
