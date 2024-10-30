@@ -1,21 +1,15 @@
 import React, { useState } from 'react';
 import './App.scss';
-import { Team } from './entities';
-import { TypeTeam } from './types';
-import { sortTable } from './utils';
+import { Team, HistoryItem } from './entities';
+import { useTeamTable } from './hooks';
 
 const App: React.FC = () => {
-  const [teamList, setTeamList] = useState([
-    new Team(1, 'Лимоны'),
-    new Team(2, 'Апельсины'),
-    new Team(3, 'Баклажаны'),
-  ]);
+  const { teamList, setTeamList, history, setHistory } = useTeamTable();
   const [inputTeamValue, setInputTeamValue] = useState('');
   const [homeTeamNameValue, setHomeTeamNameValue] = useState(teamList[0].name);
   const [visitorTeamNameValue, setVisitorTeamNameValue] = useState(teamList[1].name);
   const [homeTeamGoalsValue, setHomeTeamGoalsValue] = useState(0);
   const [visitorTeamGoalsValue, setVisitorTeamGoalsValue] = useState(0);
-
   const addTeamHandle = () => {
     if (inputTeamValue) {
       setTeamList(prev => [...prev, new Team(prev.length + 1, inputTeamValue)]);
@@ -24,21 +18,19 @@ const App: React.FC = () => {
   };
 
   const fillResults = () => {
-    setTeamList(
-      sortTable(
-        teamList.map(team => {
-          if (team.name === homeTeamNameValue) {
-            team.setResultHome(homeTeamGoalsValue, visitorTeamGoalsValue, TypeTeam.home);
-            return team;
-          } else if (team.name === visitorTeamNameValue) {
-            team.setResultVisitor(homeTeamGoalsValue, visitorTeamGoalsValue, TypeTeam.visitor);
-            return team;
-          } else {
-            return team;
-          }
-        }),
+    setHistory(prev => [
+      ...prev,
+      new HistoryItem(
+        homeTeamNameValue,
+        visitorTeamNameValue,
+        homeTeamGoalsValue,
+        visitorTeamGoalsValue,
       ),
-    );
+    ]);
+  };
+
+  const removeResult = (curIndex: number) => {
+    setHistory(prev => prev.filter((_, index) => index !== curIndex));
   };
 
   return (
@@ -193,14 +185,18 @@ const App: React.FC = () => {
       </main>
       <footer>
         <section className="games">
-          <div className="game-result container">
-            <div className="game-result__home">Хозяева</div>
-            <div className="game-result__score">
-              <span className="game-result__home-goal">0</span> -
-              <span className="game-result__visitors-goal">0</span>
+          {history.map((item, index) => (
+            <div className="game-result container">
+              <div className="game-result__home">{item.homeTeam}</div>
+              <div className="game-result__score">
+                <span className="game-result__home-goal">{item.homeScored}</span> -
+                <span className="game-result__visitors-goal"> {item.visitorScored}</span>
+              </div>
+              <div className="game-result__visitors">{item.visitorTeam}</div>
+              <button>Ed</button>
+              <button onClick={() => removeResult(index)}>X</button>
             </div>
-            <div className="game-result__visitors">Гости</div>
-          </div>
+          ))}
         </section>
       </footer>
     </div>

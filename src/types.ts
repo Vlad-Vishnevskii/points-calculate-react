@@ -1,4 +1,4 @@
-import { Team } from './entities';
+import { Team, HistoryItem } from './entities';
 
 export enum TypeTeam {
   home = 'home',
@@ -11,3 +11,5 @@ export enum CreateTeamType {
 }
 
 export type Table = Team[];
+
+export type History = HistoryItem[];

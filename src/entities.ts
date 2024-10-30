@@ -1,4 +1,4 @@
-import { TypeTeam } from './types';
+import { TypeTeam, History } from './types';
 
 export class Team {
   points: number = 0;
@@ -11,6 +11,18 @@ export class Team {
   difference: number = 0;
 
   constructor(readonly id: number, readonly name: string) {}
+
+  setResult(history: History, team: string) {
+    history.forEach(item => {
+      if (item.homeTeam === team) {
+        this.setResultHome(item.homeScored, item.visitorScored, TypeTeam.home);
+      }
+
+      if (item.visitorTeam === team) {
+        this.setResultVisitor(item.homeScored, item.visitorScored, TypeTeam.visitor);
+      }
+    });
+  }
 
   setResultHome(homeTeamGoalsValue: number, visitorTeamGoalsValue: number, type: TypeTeam) {
     this.points = this.points + this.getPoints(homeTeamGoalsValue, visitorTeamGoalsValue, type);
@@ -57,4 +69,13 @@ export class Team {
 
     return 0;
   }
+}
+
+export class HistoryItem {
+  constructor(
+    readonly homeTeam: string,
+    readonly visitorTeam: string,
+    readonly homeScored: number,
+    readonly visitorScored: number,
+  ) {}
 }
